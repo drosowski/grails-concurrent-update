@@ -1,0 +1,1 @@
+Annotating a domain class with @ConcurrentUpdate will add a custom validator for the version property, which checks if the version has changed since the object has been read from the database. The plugin also extends the autobinding process by adding the version property automatically.

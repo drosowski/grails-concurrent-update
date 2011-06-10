@@ -1,0 +1,21 @@
+<plugin name='concurrent-update' version='0.1' grailsVersion='1.3.7 &gt; *'>
+  <author>Daniel Rosowski</author>
+  <authorEmail>daniel.rosowski@gmx.de</authorEmail>
+  <title>Plugin provides annotation ConcurrentUpdate which adds custom validator for version check.</title>
+  <description>\
+This plugin provides an annotation ConcurrentUpdate. When annotating a class, the constraints closure is extended
+with a custom validator which checks if the version of the edited domain class has been changed since loading it from
+the database. Additionally the plugin adds a BindEventListener which sets the version property in the autobinding
+process.
+</description>
+  <documentation>http://github.com/drosowski/grails-concurrent-update</documentation>
+  <resources>
+    <resource>BuildConfig</resource>
+    <resource>Config</resource>
+    <resource>DataSource</resource>
+    <resource>UrlMappings</resource>
+    <resource>com.rosowski.grails.plugin.CheckedClass</resource>
+  </resources>
+  <dependencies />
+  <behavior />
+</plugin>

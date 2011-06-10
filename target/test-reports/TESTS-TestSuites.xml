@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="PCDR" id="0" name="CheckedClassTests" package="com.rosowski.grails.plugin" tests="1" time="0.531" timestamp="2011-06-10T13:11:41">
+      <properties />
+
+      <testcase classname="com.rosowski.grails.plugin.CheckedClassTests" name="testConstraints" time="0.517" />
+
+      <system-out><![CDATA[--Output from testConstraints--
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testConstraints--
+]]></system-err>
+
+  </testsuite>
+</testsuites>
