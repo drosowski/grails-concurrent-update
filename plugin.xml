@@ -15,6 +15,7 @@ process.
     <resource>DataSource</resource>
     <resource>UrlMappings</resource>
     <resource>com.rosowski.grails.plugin.CheckedClass</resource>
+    <resource>com.rosowski.grails.plugin.ConcurrentUpdateTagLib</resource>
   </resources>
   <dependencies />
   <behavior />
