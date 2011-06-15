@@ -28,8 +28,15 @@ public class ConcurrentUpdateASTTransformation implements ASTTransformation {
     private static final Log LOG = LogFactory.getLog(ConcurrentUpdateASTTransformation.class);
     private static final String checkVersion = "version(validator: { Long value, object ->\n" +
             "      if (value != null) {\n" +
-            "        if (object.getPersistentValue('version') > value) {\n" +
+            "        def storedVersion = object.getPersistentValue('version')\n" +
+            "        if (storedVersion > value) {\n" +
+            "          object.version = storedVersion\n" +
+            "          object.isLocked = true\n" +
             "          return ['optimistic.locking.failure']\n" +
+            "        }\n" +
+            "        else {\n" +
+            "          object.isLocked = false\n" +
+            "          return true\n" +
             "        }\n" +
             "      }\n" +
             "      return true\n" +

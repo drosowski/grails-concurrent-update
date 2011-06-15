@@ -9,7 +9,7 @@ class ConcurrentUpdateTagLibTests extends TagLibUnitTestCase {
 
   protected void setUp() {
     super.setUp()
-    ConcurrentUpdateTagLib.metaClass.message = { Map params -> return "${params.args[0]}" }
+    ConcurrentUpdateTagLib.metaClass.message = { Map params -> return "message" }
     tagLib = new ConcurrentUpdateTagLib()
   }
 
@@ -20,10 +20,9 @@ class ConcurrentUpdateTagLibTests extends TagLibUnitTestCase {
   void testStoredValue() {
     CheckedClass checked = new CheckedClass(name: "foobar", version: 1)
     mockDomain(CheckedClass, [checked])
-    checked.metaClass.static.withSession = { def closure ->
-      Map sessionMap = [setFlushMode: { org.hibernate.FlushMode mode -> }]
-      sessionMap.get = { String bean, Long id -> return new CheckedClass(name: "barfoo", version: 2) }
-      Session session = sessionMap as Session
+    checked.metaClass.isLocked = true
+    checked.metaClass.static.withNewSession = { def closure ->
+      Session session = [get: { Class bean, Long id -> return new CheckedClass(name: "barfoo", version: 2) }] as Session
       closure.call(session)
     }
 

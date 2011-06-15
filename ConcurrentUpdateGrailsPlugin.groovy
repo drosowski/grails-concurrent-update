@@ -1,4 +1,5 @@
 import com.rosowski.grails.plugin.IncludeVersionListener
+import com.rosowski.grails.plugin.ConcurrentUpdate
 
 class ConcurrentUpdateGrailsPlugin {
     // the plugin version
@@ -36,7 +37,11 @@ process.
     }
 
     def doWithDynamicMethods = { ctx ->
-        // TODO Implement registering dynamic methods to classes (optional)
+        for (domainClass in application.domainClasses) {
+			if(domainClass.clazz.getAnnotation(ConcurrentUpdate.class) != null) {
+              domainClass.metaClass.isLocked = false
+            }
+		}
     }
 
     def doWithApplicationContext = { applicationContext ->
