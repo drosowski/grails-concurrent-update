@@ -16,6 +16,7 @@ class CheckedClassTests extends GrailsUnitTestCase {
     CheckedClass checked = new CheckedClass(name: 'foobar', version: 1)
     mockForConstraintsTests(CheckedClass, [checked])
     checked.metaClass.getPersistentValue = { String field -> return 1 }
+    checked.metaClass.isLocked = false
 
     checked.version = 0
     checked.name = "barfoo"
