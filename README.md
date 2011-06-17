@@ -55,7 +55,11 @@ by the editing user A. Lets see how we can add the tag to a typical scaffolded v
 So if user A hits 'save' and another version has already been saved by user B, user A gets a warning and the ability
 to apply the changes from user B to the object (for each field where the tag has been used).
 
+GOTCHAS
+--------
+- Make sure you have erased the version check in the controller code, otherwise the custom validator won't be hit.
+- Don't flush the save in the controller, since this leads to a duplicate validation of the object.
+
 TODO
 --------
 - handle date fields
-- handle select boxes
