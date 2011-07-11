@@ -11,6 +11,7 @@ class ConcurrentUpdateTagLibTests extends TagLibUnitTestCase {
     super.setUp()
     ConcurrentUpdateTagLib.metaClass.message = { Map params -> return "message" }
     tagLib = new ConcurrentUpdateTagLib()
+    tagLib.grailsApplication = [isDomainClass: { def value -> return false}]
   }
 
   protected void tearDown() {
@@ -21,19 +22,9 @@ class ConcurrentUpdateTagLibTests extends TagLibUnitTestCase {
     CheckedClass checked = new CheckedClass(name: "foobar", version: 1)
     mockDomain(CheckedClass, [checked])
     checked.metaClass.isLocked = true
-    checked.metaClass.static.withNewSession = { def closure ->
-      Session session = [get: { Class bean, Long id -> return new CheckedClass(name: "barfoo", version: 2) }] as Session
-      closure.call(session)
-    }
-
-    checked.metaClass.getPersistentValue = { String field ->
-      if (field == "version") {
-        return 1
-      }
-      else {
-        return "foobar"
-      }
-    }
+    def newChecked = new CheckedClass(name: "foobar", version: 2)
+    newChecked.metaClass.name_persisted = "barfoo"
+    tagLib.concurrentUpdateService = [getPersistentValues: { def bean -> return newChecked }]
 
     Map attrs = [field: "name", bean: checked]
     def result = tagLib.storedValue(attrs, null).toString()

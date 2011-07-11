@@ -36,6 +36,8 @@ which checks the version.
 
     @ConcurrentUpdate
     class Announcement {
+        String title
+        String message
         ...
     }
 
@@ -47,10 +49,15 @@ provide a BindEventListener.
 
 Retrieving the other users changes
 --------
-The plugin goes one step further and provides a taglib with which the changes from user B can be applied to the object
+There are two ways of retrieving user changes in a concurrent update situation. First, by using the
+ConcurrentUpdateService.getPersistentValues(). This service adds an extra field for each persistent property of the
+ domain class with a trailing "_persisted" added to the field name. Taking the above example class Announcement, we would
+ end up with two extra properties added dynamically to the instance, title_persisted and message_persisted.
+
+Additionally, the plugin provides a taglib with which the changes from user B can be applied to the object
 by the editing user A. Lets see how we can add the tag to a typical scaffolded view.
 
-    <conup:storedValue bean="${somebean}" field="somefield"/>
+    <conup:storedValue bean="${announcement}" field="message"/>
 
 So if user A hits 'save' and another version has already been saved by user B, user A gets a warning and the ability
 to apply the changes from user B to the object (for each field where the tag has been used).
